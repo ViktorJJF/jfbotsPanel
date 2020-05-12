@@ -69,6 +69,12 @@ export default {
           to: { name: "listDishes" },
           icon: "fa fa-table",
         },
+        {
+          id: 7,
+          title: "Configuración",
+          to: { name: "config" },
+          icon: "fa fa-table",
+        },
       ],
     };
   },

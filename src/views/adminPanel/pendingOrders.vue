@@ -22,7 +22,7 @@
                         <th scope="col">Fecha</th>
                         <th scope="col">Total</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">Marcar como hecho</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,15 @@
                         <td>
                           <span class="badge badge-danger">Pendiente</span>
                         </td>
-                        <td><i class="ti-trash"></i></td>
+                        <td>
+                          <b-form-checkbox
+                            v-model="status"
+                            name="checkbox-1"
+                            value="accepted"
+                            unchecked-value="not_accepted"
+                          >
+                          </b-form-checkbox>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -72,7 +80,7 @@
                         <th scope="col">Fecha</th>
                         <th scope="col">Total</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">Marcar como hecho</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -96,7 +104,13 @@
                         <td>
                           <span class="badge badge-danger">Pendiente</span>
                         </td>
-                        <td><i class="ti-trash"></i></td>
+                        <td>
+                          <b-form-checkbox
+                            name="checkbox-1"
+                            value="accepted"
+                            unchecked-value="not_accepted"
+                          ></b-form-checkbox>
+                        </td>
                       </tr>
                     </tbody>
                   </table>

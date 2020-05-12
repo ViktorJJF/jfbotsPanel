@@ -5,7 +5,9 @@
       <navbar></navbar>
       <router-view></router-view>
       <v-footer></v-footer>
+      <overlay></overlay>
     </div>
+    <success-snackbar></success-snackbar>
   </div>
 </template>
 
@@ -14,11 +16,15 @@ import sidebar from "@/components/adminPanel/sidebar";
 import navbar from "@/components/adminPanel/navbar";
 import vFooter from "@/components/adminPanel/footer";
 import { addCustomScript } from "@/utils/utils";
+import successSnackbar from "@/components/global/success";
+import overlay from "@/components/global/overlay";
 export default {
   components: {
     sidebar,
     navbar,
     vFooter,
+    successSnackbar,
+    overlay,
   },
   mounted() {
     addCustomScript("assets/js/line-chart.js");
