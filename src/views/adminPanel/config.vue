@@ -1,134 +1,53 @@
 <template>
   <ValidationObserver ref="observer" v-slot="{ passes }">
     <b-form @submit.prevent="passes(onSubmit)" @reset="resetForm">
-      <ValidationProvider
-        rules="length"
-        name="Email"
-        v-slot="{ valid, errors }"
-      >
-        <b-form-group
-          label="Nombre"
-          label-for="exampleInput1"
-          description="We'll never share your email with anyone else."
-        >
-          <b-form-input
-            type="text"
-            v-model="email"
-            :state="errors[0] ? false : valid ? true : null"
-            placeholder="Ingresa un nombre"
-          ></b-form-input>
-          <b-form-invalid-feedback id="inputLiveFeedback">{{
-            errors[0]
-          }}</b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
-      <ValidationProvider
+      <BTextInputWithValidation
         rules="required|email"
+        type="email"
+        label="Correo:"
         name="Email"
-        v-slot="{ valid, errors }"
-      >
-        <b-form-group
-          label="Email address:"
-          label-for="exampleInput1"
-          description="We'll never share your email with anyone else."
-        >
-          <b-form-input
-            type="email"
-            v-model="email"
-            :state="errors[0] ? false : valid ? true : null"
-            placeholder="Enter email"
-          ></b-form-input>
-          <b-form-invalid-feedback id="inputLiveFeedback">{{
-            errors[0]
-          }}</b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
+        v-model="email"
+        description="We'll never share your email with anyone else"
+        placeholder="Enter email"
+      />
 
-      <ValidationProvider
+      <BTextInputWithValidation
         rules="required"
         name="Password"
         vid="password"
-        v-slot="{ valid, errors }"
-      >
-        <b-form-group
-          label="Password:"
-          description="We'll never share your password with anyone else."
-        >
-          <b-form-input
-            type="password"
-            v-model="password"
-            :state="errors[0] ? false : valid ? true : null"
-            placeholder="Enter password"
-          ></b-form-input>
-          <b-form-invalid-feedback id="inputLiveFeedback">{{
-            errors[0]
-          }}</b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
+        type="password"
+        label="Password"
+        v-model="password"
+        description="We'll never share your password with anyone else"
+        placeholder="Enter password"
+      />
 
-      <ValidationProvider
+      <BTextInputWithValidation
         rules="required|confirmed:password"
         name="Password confirmation"
-        v-slot="{ valid, errors }"
-      >
-        <b-form-group label="Confirm Password:" label-for="exampleInput1">
-          <b-form-input
-            type="password"
-            v-model="confirmation"
-            :state="errors[0] ? false : valid ? true : null"
-            placeholder="Confirm Password"
-          ></b-form-input>
-          <b-form-invalid-feedback id="inputLiveFeedback">{{
-            errors[0]
-          }}</b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
+        type="password"
+        label="Password confirmation"
+        v-model="confirmation"
+        description="We'll never share your password with anyone else"
+        placeholder="Confirm password"
+      />
 
-      <ValidationProvider
-        name="Subject"
+      <BSelectWithValidation
         rules="required"
-        v-slot="{ valid, errors }"
+        label="Subject:"
+        v-model="subject"
       >
-        <b-form-group
-          id="exampleInputGroup3"
-          label="Subject:"
-          label-for="exampleInput3"
-        >
-          <b-form-select
-            id="exampleInput3"
-            :state="errors[0] ? false : valid ? true : null"
-            v-model="subject"
-          >
-            <option value>None</option>
-            <option value="S1">Subject 1</option>
-            <option value="S2">Subject 2</option>
-          </b-form-select>
-          <b-form-invalid-feedback id="inputLiveFeedback">{{
-            errors[0]
-          }}</b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
+        <option value="null">None</option>
+        <option value="S1">Subject 1</option>
+        <option value="S2">Subject 2</option>
+      </BSelectWithValidation>
 
-      <ValidationProvider
-        name="Drink"
-        rules="required|length:2"
-        v-slot="{ valid, errors }"
-      >
-        <b-form-group id="exampleGroup4">
-          <b-form-checkbox-group
-            :state="errors[0] ? false : valid ? true : null"
-            v-model="choices"
-            id="exampleChecks"
-          >
-            <b-form-checkbox value="Coffee">Coffe</b-form-checkbox>
-            <b-form-checkbox value="Tea">Tea</b-form-checkbox>
-            <b-form-checkbox value="Soda">Soda</b-form-checkbox>
-          </b-form-checkbox-group>
-          <b-form-invalid-feedback id="inputLiveFeedback">{{
-            errors[0]
-          }}</b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
+      <BCheckboxesWithValidation v-model="choices" rules="required">
+        <b-form-checkbox value="Coffee">Coffe</b-form-checkbox>
+        <b-form-checkbox value="Tea">Tea</b-form-checkbox>
+        <b-form-checkbox value="Soda">Soda</b-form-checkbox>
+      </BCheckboxesWithValidation>
+
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
@@ -136,8 +55,19 @@
 </template>
 
 <script>
+import { ValidationObserver } from "vee-validate";
+import BTextInputWithValidation from "@/components/inputs/BTextInputWithValidation";
+import BSelectWithValidation from "@/components/inputs/BSelectWithValidation";
+import BCheckboxesWithValidation from "@/components/inputs/CheckboxesWithValidation";
+
 export default {
   name: "BootstrapForm",
+  components: {
+    ValidationObserver,
+    BTextInputWithValidation,
+    BSelectWithValidation,
+    BCheckboxesWithValidation,
+  },
   data: () => ({
     email: "",
     password: "",
@@ -145,6 +75,11 @@ export default {
     subject: "",
     choices: [],
   }),
+  watch: {
+    subject(val) {
+      console.log(val);
+    },
+  },
   methods: {
     onSubmit() {
       console.log("Form submitted yay!");

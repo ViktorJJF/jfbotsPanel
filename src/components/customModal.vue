@@ -1,13 +1,19 @@
 <template>
   <div>
-    <b-modal ref="my-modal" id="modal-lg" :title="title" button-size="sm">
+    <b-modal
+      ref="my-modal"
+      id="modal-lg"
+      footer-class="disable-footer"
+      :title="title"
+      button-size="sm"
+    >
       <!-- inicio del body -->
-      <slot name="body"></slot>
+      <slot></slot>
       <!-- fin del body -->
-      <template v-slot:modal-footer>
+      <!-- <template v-slot:modal-footer>
         <slot name="saveButton"></slot>
         <slot name="cancelButton"></slot>
-      </template>
+      </template> -->
     </b-modal>
     <!-- trigger button -->
     <b-button
@@ -40,4 +46,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.disable-footer {
+  display: none;
+}
+</style>

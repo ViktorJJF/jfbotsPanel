@@ -16,71 +16,56 @@
                   ref="myModal"
                   @onOpenModal="onOpenDishModal"
                 >
-                  <b-form slot="body">
-                    <b-form-group label="Nombre" label-for="input-1">
-                      <b-form-input
+                  <ValidationObserver ref="observer" v-slot="{ passes }">
+                    <b-form @submit.prevent="passes(submitDish)">
+                      <BTextInputWithValidation
+                        rules="required"
+                        type="text"
+                        label="Nombre:"
+                        name="dishName"
                         v-model="newDish.name"
                         id="input-1"
-                        type="email"
                         required
                         placeholder="Ingresa el nombre"
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-row>
-                      <b-col sm="6"
-                        ><b-form-group label="Precio" label-for="input-2">
-                          <b-form-input
+                      />
+                      <b-row>
+                        <b-col sm="6">
+                          <BTextInputWithValidation
+                            rules="required|decimal"
+                            label="Precio:"
+                            name="dishName"
                             v-model="newDish.price"
-                            id="input-2"
-                            type="email"
+                            id="input-1"
                             required
                             placeholder="S/."
-                          ></b-form-input> </b-form-group
-                      ></b-col>
-                      <b-col sm="6"
-                        ><b-form-group label="Tipo" label-for="input-3">
-                          <b-form-select
-                            id="input-3"
-                            v-model="newDish.type"
+                          />
+                        </b-col>
+                        <b-col sm="6">
+                          <BSelectWithValidation
+                            rules="required"
+                            label="Tipos:"
+                            v-model="newDish.typeId"
                             :options="dishesTypes"
-                            text-field="name"
-                            label-field="Seleccione el tipo"
-                            value-field="_id"
-                          ></b-form-select> </b-form-group
-                      ></b-col> </b-row
-                    ><b-button
-                      slot="saveButton"
-                      @click="
-                        editedIndexDishes > -1
-                          ? updateDish(newDish._id, newDish)
-                          : createDish(newDish)
-                      "
-                      variant="success"
-                      class="float-right"
-                    >
-                      Guardar
-                    </b-button>
-                  </b-form>
-                  <b-button
-                    slot="saveButton"
-                    @click="
-                      editedIndexDishes > -1
-                        ? updateDish(newDish._id, newDish)
-                        : createDish(newDish)
-                    "
-                    variant="success"
-                    class="float-right"
-                  >
-                    Guardar
-                  </b-button>
-                  <b-button
-                    slot="cancelButton"
-                    @click="closeDishModal()"
-                    variant="danger"
-                    class="float-right"
-                  >
-                    Cancelar
-                  </b-button>
+                            textField="name"
+                            valueField="_id"
+                          ></BSelectWithValidation>
+                        </b-col>
+                      </b-row>
+                      <b-button
+                        slot="cancelButton"
+                        @click="closeDishModal()"
+                        variant="outline-danger"
+                        class="float-right"
+                        >Cancelar</b-button
+                      >
+                      <b-button
+                        class="float-right mr-2"
+                        variant="success"
+                        type="submit"
+                        >Enviar</b-button
+                      >
+                    </b-form>
+                  </ValidationObserver>
                 </custom-modal>
               </b-row>
               <div class="single-table">
@@ -102,19 +87,24 @@
                     <template v-slot:cell(N°)="data">
                       <b>{{ data.index + 1 }}</b>
                     </template>
+                    <template v-slot:cell(typeId)="data">
+                      {{ getDishTypeName(data.item.typeId) }}
+                    </template>
                     <template v-slot:cell(actions)="data">
                       <b-button
                         size="sm"
                         variant="primary"
-                        @click="editDish(data.item)"
-                        ><b-icon icon="pencil"></b-icon
-                      ></b-button>
+                        @click="editItem(data.item)"
+                      >
+                        <b-icon icon="pencil"></b-icon>
+                      </b-button>
                       <b-button
                         size="sm"
                         variant="danger"
                         @click="deleteDish(data.item._id)"
-                        ><b-icon icon="trash"></b-icon
-                      ></b-button>
+                      >
+                        <b-icon icon="trash"></b-icon>
+                      </b-button>
                     </template>
                   </b-table>
                 </div>
@@ -135,31 +125,35 @@
           <div class="card">
             <div class="card-body">
               <b-row align-h="between" class="mb-3 mx-1">
-                <b class="header-title"> Tipos</b>
+                <b class="header-title">Tipos</b>
                 <custom-modal ref="myModal2" @onOpenModal="onOpenDishTypeModal">
-                  <b-form slot="body">
-                    <b-form-group label="Nombre" label-for="input-1">
-                      <b-form-input
+                  <ValidationObserver ref="observer" v-slot="{ passes }">
+                    <b-form @submit.prevent="passes(submitDishType)">
+                      <BTextInputWithValidation
+                        rules="required"
+                        type="text"
+                        label="Nombre:"
+                        name="dishName"
                         v-model="newDishType.name"
                         id="input-1"
-                        type="text"
                         required
-                        placeholder="Ingresa el nombre"
-                      ></b-form-input>
-                    </b-form-group>
-                  </b-form>
-                  <b-button
-                    slot="saveButton"
-                    @click="
-                      editedIndexDishesTypes > -1
-                        ? updateDishType(newDishType._id, newDishType)
-                        : createDishType(newDishType)
-                    "
-                    variant="success"
-                    class="float-right"
-                  >
-                    Guardar
-                  </b-button>
+                        placeholder="Ingresa el tipo"
+                      />
+                      <b-button
+                        slot="cancelButton"
+                        @click="closeDishTypeModal()"
+                        variant="outline-danger"
+                        class="float-right"
+                        >Cancelar</b-button
+                      >
+                      <b-button
+                        class="float-right mr-2"
+                        variant="success"
+                        type="submit"
+                        >Enviar</b-button
+                      >
+                    </b-form>
+                  </ValidationObserver>
                 </custom-modal>
               </b-row>
               <div class="single-table">
@@ -184,14 +178,16 @@
                             size="sm"
                             variant="primary"
                             @click="editDishType(dishesType)"
-                            ><b-icon icon="pencil"></b-icon
-                          ></b-button>
+                          >
+                            <b-icon icon="pencil"></b-icon>
+                          </b-button>
                           <b-button
                             size="sm"
                             variant="danger"
                             @click="deleteDishType(dishesType._id)"
-                            ><b-icon icon="trash"></b-icon
-                          ></b-button>
+                          >
+                            <b-icon icon="trash"></b-icon>
+                          </b-button>
                         </td>
                       </tr>
                     </tbody>
@@ -209,6 +205,8 @@
 <script>
 import contentTitle from "@/components/adminPanel/contentTitle";
 import customModal from "@/components/customModal";
+import BTextInputWithValidation from "@/components/inputs/BTextInputWithValidation";
+import BSelectWithValidation from "@/components/inputs/BSelectWithValidation";
 import dishObject from "@/classes/dish";
 import dishTypeObject from "@/classes/dishType";
 import api from "@/services/api";
@@ -217,6 +215,8 @@ export default {
   components: {
     contentTitle,
     customModal,
+    BTextInputWithValidation,
+    BSelectWithValidation,
   },
   data() {
     return {
@@ -234,7 +234,7 @@ export default {
         { key: "name", label: "Nombre" },
         { key: "price", label: "Precio" },
         { key: "img", label: "Imagen" },
-        { key: "type", label: "Tipo" },
+        { key: "typeId", label: "Tipo" },
         "actions",
       ],
     };
@@ -248,8 +248,9 @@ export default {
       this.$store.commit("showLoadingScreen");
       try {
         if (this.$store.state.dishes.length > 0)
-          this.dishes = this.$store.state.dishes;
-        else this.dishes = await this.$store.dispatch("getDishes");
+          this.dishes = this.$deepCopy(this.$store.state.dishes);
+        else
+          this.dishes = this.$deepCopy(await this.$store.dispatch("getDishes"));
         this.dishesTypes = (await api.getDishesTypes()).data.payload;
       } catch (error) {
         this.$store.commit("showErr");
@@ -261,9 +262,9 @@ export default {
     onOpenDishModal() {
       this.clearDishesForm();
     },
-    createDish() {
+    createDish(newDish) {
       this.$refs.myModal.hideModal();
-      this.$store.dispatch("createDish", this.newDish).then((createdDish) => {
+      this.$store.dispatch("createDish", newDish).then((createdDish) => {
         this.dishes.push(createdDish);
       });
       this.newDish = dishObject();
@@ -275,7 +276,7 @@ export default {
           .then(() => this.dishes.splice(id, 1));
       }
     },
-    editDish(dish) {
+    editItem(dish) {
       this.editedIndexDishes = this.dishes.indexOf(dish);
       this.newDish = this.$deepCopy(dish);
       this.$refs.myModal.showModal();
@@ -290,6 +291,13 @@ export default {
           Object.assign(this.dishes[dishIndex], newDish);
         });
       this.$refs.myModal.hideModal();
+    },
+    submitDish() {
+      if (this.editedIndexDishes > -1) {
+        this.updateDish(this.newDish._id, this.newDish);
+      } else {
+        this.createDish(this.newDish);
+      }
     },
     closeDishModal() {
       this.clearDishesForm();
@@ -356,6 +364,22 @@ export default {
     clearDishesTypesForm() {
       this.editedIndexDishesTypes = -1;
       this.newDishType = dishTypeObject();
+    },
+    closeDishTypeModal() {
+      this.clearDishesTypesForm();
+      this.$refs.myModal2.hideModal();
+    },
+    //other methods
+    getDishTypeName(value) {
+      let dishType = this.dishesTypes.find((dishType) => dishType._id == value);
+      return dishType ? dishType.name : "";
+    },
+    submitDishType() {
+      if (this.editedIndexDishesTypes > -1) {
+        this.updateDishType(this.newDishType._id, this.newDishType);
+      } else {
+        this.createDishType(this.newDishType);
+      }
     },
   },
   computed: {

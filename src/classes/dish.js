@@ -4,6 +4,6 @@ export default () =>
       name: "",
       price: 0,
       img: "",
-      type: "",
+      typeId: null,
     })
   );
