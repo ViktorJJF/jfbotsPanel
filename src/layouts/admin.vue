@@ -39,6 +39,7 @@ export default {
       this.$store.commit("showLoadingScreen");
       try {
         await this.$store.dispatch("getDishes");
+        console.log("esto hay en store: ", this.$store.state.dishes);
       } catch (error) {
         this.$store.commit("showErr");
         console.log(error);

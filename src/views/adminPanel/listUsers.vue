@@ -51,7 +51,7 @@
 
 <script>
 import contentTitle from "@/components/adminPanel/contentTitle";
-import { listChatbotUsers } from "@/services/api";
+// import { listChatbotUsers } from "@/services/api";
 export default {
   components: {
     contentTitle,
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     async initialData() {
-      this.chatbotUsers = await listChatbotUsers();
+      // this.chatbotUsers = await listChatbotUsers();
     },
   },
   computed: {
