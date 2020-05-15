@@ -89,5 +89,10 @@ export default new Vuex.Store({
     },
     //global actions
   },
+  getters: {
+    getDishesByType: (state) => (typeId) => {
+      return state.dishes.filter((dish) => dish.typeId == typeId) || [];
+    },
+  },
   modules: {},
 });

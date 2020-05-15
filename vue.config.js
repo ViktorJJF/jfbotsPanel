@@ -3,9 +3,9 @@ const path = require("path");
 module.exports = {
   devServer: {
     proxy: {
-      "/api": {
-        target: "http://localhost:3000",
-        // target: 'https://mastermindgeeks.herokuapp.com'
+      "^/api": {
+        // target: "http://localhost:3000",
+        target: "https://jfbots.com",
       },
     },
   },

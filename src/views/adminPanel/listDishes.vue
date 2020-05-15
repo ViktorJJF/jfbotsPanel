@@ -90,6 +90,14 @@
                     <template v-slot:cell(typeId)="data">
                       {{ getDishTypeName(data.item.typeId) }}
                     </template>
+                    <template v-slot:cell(img)="data">
+                      <b-img
+                        src="https://picsum.photos/1024/400/?image=41"
+                        fluid
+                        :alt="data.item.img"
+                        width="200"
+                      ></b-img>
+                    </template>
                     <template v-slot:cell(actions)="data">
                       <b-button
                         size="sm"

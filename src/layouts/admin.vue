@@ -31,6 +31,21 @@ export default {
     addCustomScript("assets/js/pie-chart.js");
     addCustomScript("assets/js/plugins.js");
     addCustomScript("assets/js/scripts.js");
+    this.initialData();
+  },
+  methods: {
+    async initialData() {
+      //dishes
+      this.$store.commit("showLoadingScreen");
+      try {
+        await this.$store.dispatch("getDishes");
+      } catch (error) {
+        this.$store.commit("showErr");
+        console.log(error);
+      } finally {
+        this.$store.commit("showLoadingScreen", false);
+      }
+    },
   },
 };
 </script>

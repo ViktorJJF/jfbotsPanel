@@ -10,11 +10,11 @@
       ></b-img>
     </b-row>
     <b-row align-h="center" class="mb-3">
-      <b-card title="¡Bienvenido!" style="max-width: 25rem;">
+      <b-card title="¡¡Bienvenido!!" style="max-width: 30rem;">
         <b-card-text>
           <p>
-            Estamos emocionados que hayas escogido tus canales de atención al
-            cliente con nuestro amigo <b>Restobot</b>.
+            Estamos emocionados que hayas escogido ampliar tus canales de
+            atención al cliente con nuestro amigo <b>Restobot</b>.
           </p>
           <p>
             Esta página será empleada para mostrar

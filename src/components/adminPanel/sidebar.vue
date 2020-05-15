@@ -15,7 +15,12 @@
       <div class="menu-inner">
         <nav>
           <ul class="metismenu" id="menu">
-            <li v-for="item in items" :key="item.id">
+            <li
+              v-for="(item, idx) in items"
+              :key="item.id"
+              :class="{ active: idx === activeIndex }"
+              @click="getActiveIndex(idx)"
+            >
               <router-link :to="item.to">
                 <i :class="item.icon"></i>
                 <span class="sidebar-font">{{ item.title }}</span>
@@ -32,6 +37,7 @@
 export default {
   data() {
     return {
+      activeIndex: 0,
       items: [
         {
           id: 1,
@@ -77,6 +83,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    getActiveIndex(index) {
+      this.activeIndex = index;
+    },
   },
 };
 </script>
